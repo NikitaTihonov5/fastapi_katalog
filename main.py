@@ -39,9 +39,6 @@ async def get_authors():
 @app.post("/books/")
 async def create_book(book: BookCreate):
     db = SessionLocal()
-    author = db.query(Author).filter(Author.id == book.author_id).first()
-    if not author:
-        raise HTTPException(status_code=404, detail="Автор не найден")
     new_book = Book(title=book.title, author_id=book.author_id, genre=book.genre, img=book.img)
     db.add(new_book)
     db.commit()
